@@ -1,0 +1,21 @@
+{
+  "name": "ipfs_base",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/babel --presets env --plugins transform-class-properties,transform-object-rest-spread ./index.js -o ./IPFS_GO.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "go-ipfs-dep": "^0.4.16",
+    "ipfs": "^0.30.0",
+    "ipfsd-ctl": "^0.38.0"
+  }
+}
