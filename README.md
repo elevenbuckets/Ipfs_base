@@ -1,0 +1,3 @@
+# Ipfs_go
+
+Actually... this module now uses JS-IPFS ... 
