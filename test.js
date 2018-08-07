@@ -1,6 +1,6 @@
 'use strict';
 
-const ipfs_go = require('./IPFS_GO.js');
+const ipfs_go = require('./IPFS_Base.js');
 const fs = require('fs');
 let ipfs = new ipfs_go('./.local/config.json');
 
