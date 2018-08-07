@@ -7,7 +7,7 @@ class IPFS_GO {
 	constructor(cfpath) {
 		let buffer = fs.readFileSync(cfpath);
 		this.cfsrc = JSON.parse(buffer.toString());
-		this.options = {EXPERIMENTAL: {pubsub: true}, init: true, repo: this.cfsrc.repoPath};
+		this.options = {EXPERIMENTAL: {pubsub: true}, init: true, repo: this.cfsrc.repoPath, relay: {enabled: true, hop: { enabled: true}}};
 
 		if (fs.existsSync(this.cfsrc.lockerpath)) this.options.init = false;
 
