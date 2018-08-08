@@ -1,3 +1,3 @@
-# Ipfs_go
+# Ipfs_Base
 
-this is the branch that still uses go-ipfs with js api
+Supporting both go-ipfs and js-ipfs.

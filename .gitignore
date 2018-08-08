@@ -54,9 +54,10 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
+IPFS_GO.js
+IPFS_JS.js
+
 # dotenv environment variables file
 .env
 .local/
 playground/
-
-IPFS_Base.js
