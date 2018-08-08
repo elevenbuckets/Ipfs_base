@@ -54,7 +54,7 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-IPFS_GO.js
+IPFS_Base.js
 
 # dotenv environment variables file
 .env
