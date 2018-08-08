@@ -12,7 +12,7 @@ class IPFS_GO {
 
 		if (fs.existsSync(this.cfsrc.lockerpath)) this.options.init = false;
 
-		this.ipfsd = ipfsctl.create({type: 'go', exec: '/usr/bin/ipfs'});
+		this.ipfsd = ipfsctl.create({type: 'go', exec: this.cfsrc.ipfsBinary});
 	}
 	
 	start = () => {
