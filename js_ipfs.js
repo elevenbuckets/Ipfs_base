@@ -7,9 +7,9 @@ class IPFS_GO {
 	constructor(cfpath) {
 		let buffer = fs.readFileSync(cfpath);
 		this.cfsrc = JSON.parse(buffer.toString());
-		this.options = {EXPERIMENTAL: {pubsub: true}, init: true, repo: this.cfsrc.repoPath, relay: {enabled: true, hop: { enabled: true}}};
+		this.options = {EXPERIMENTAL: {pubsub: true}, init: true, repo: this.cfsrc.repoPathJs, relay: {enabled: true, hop: { enabled: true}}};
 
-		if (fs.existsSync(this.cfsrc.lockerpath)) this.options.init = false;
+		if (fs.existsSync(this.cfsrc.lockerpathjs)) this.options.init = false;
 
 		this.ipfs = new IPFS(this.options);
 		this.ready = false;
@@ -18,7 +18,7 @@ class IPFS_GO {
 	start = () => {
 		return new Promise((resolve, reject) => {
 			this.ipfs.on('ready', () => {
-        	                fs.writeFileSync(this.cfsrc.lockerpath, JSON.stringify(this.cfsrc,0,2));
+        	                fs.writeFileSync(this.cfsrc.lockerpathjs, JSON.stringify(this.cfsrc,0,2));
 				process.on('SIGINT', () => {
 					console.log("\tCtrl+C or SIGINT detected ... stopping...");
 					this.ipfs.stop().then(() => {

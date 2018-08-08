@@ -8,9 +8,9 @@ class IPFS_GO {
 	constructor(cfpath) {
 		let buffer = fs.readFileSync(cfpath);
 		this.cfsrc = JSON.parse(buffer.toString());
-		this.options = {args: ['--enable-pubsub-experiment'], disposable: false, init: true, repoPath: this.cfsrc.repoPath};
+		this.options = {args: ['--enable-pubsub-experiment'], disposable: false, init: true, repoPath: this.cfsrc.repoPathGo};
 
-		if (fs.existsSync(this.cfsrc.lockerpath)) this.options.init = false;
+		if (fs.existsSync(this.cfsrc.lockerpathgo)) this.options.init = false;
 
 		this.ipfsd = ipfsctl.create({type: 'go', exec: this.cfsrc.ipfsBinary});
 	}
@@ -20,7 +20,7 @@ class IPFS_GO {
                         this.ipfsd.spawn(this.options, (err, ipfsFactory) => {
                                 if (err) return reject(err);
 
-                                fs.writeFileSync(this.cfsrc.lockerpath, JSON.stringify(this.cfsrc,0,2));
+                                fs.writeFileSync(this.cfsrc.lockerpathgo, JSON.stringify(this.cfsrc,0,2));
 
 				ipfsFactory.start(this.options.args, (err) => {
                                 	if (err) return reject(err);
@@ -29,8 +29,8 @@ class IPFS_GO {
 						if (this.controller.started) {
 							console.log("\tCtrl+C or SIGINT detected ... stopping...");
 							this.stop().then(() => {
-								fs.unlinkSync(path.join(this.cfsrc.repoPath, 'api'));
-								fs.unlinkSync(path.join(this.cfsrc.repoPath, 'repo.lock'));
+								fs.unlinkSync(path.join(this.cfsrc.repoPathGo, 'api'));
+								fs.unlinkSync(path.join(this.cfsrc.repoPathGo, 'repo.lock'));
 							});
 						}
 					});
@@ -38,8 +38,8 @@ class IPFS_GO {
 					process.on('exit', () => {
 						if (this.controller.started) {
 							this.stop().then(() => {
-								fs.unlinkSync(path.join(this.cfsrc.repoPath, 'api'));
-								fs.unlinkSync(path.join(this.cfsrc.repoPath, 'repo.lock'));
+								fs.unlinkSync(path.join(this.cfsrc.repoPathGo, 'api'));
+								fs.unlinkSync(path.join(this.cfsrc.repoPathGo, 'repo.lock'));
 							});
 						}
 					});
