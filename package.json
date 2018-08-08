@@ -6,7 +6,8 @@
   "scripts": {
     "build_go": "./node_modules/.bin/babel --presets env --plugins transform-class-properties,transform-object-rest-spread ./go_ipfs.js -o ./IPFS_GO.js",
     "build_js": "./node_modules/.bin/babel --presets env --plugins transform-class-properties,transform-object-rest-spread ./js_ipfs.js -o ./IPFS_JS.js",
-    "postinstall": "npm run build_go && npm run build_js"
+    "build": "npm run build_go && npm run build_js",
+    "postinstall": "npm run build"
   },
   "keywords": [],
   "author": "",
