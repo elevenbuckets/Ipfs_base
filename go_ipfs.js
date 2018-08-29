@@ -78,6 +78,19 @@ class IPFS_GO {
 	lspin = () => { return this.ipfsAPI.pin.ls(); }
 
 	read = (hash) => { return this.ipfsAPI.files.cat('/ipfs/' + hash); }
+
+	readPath = (ipfsPath) => { return this.ipfsAPI.files.cat(ipfsPath); }
+
+	publish = (contentHash, key=null) => {
+		let options = {};
+
+		if (key !== null) options['key'] = key;
+		return this.ipfsAPI.name.publish(contentHash, options);
+	}
+
+	resolve = (ipnsHash) => {
+		return this.ipfsAPI.name.resolve(ipnsHash);
+	}
 }
 
 module.exports = IPFS_GO;
