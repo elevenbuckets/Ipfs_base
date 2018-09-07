@@ -6,9 +6,22 @@ const path = require('path');
 
 class IPFS_GO {
 	constructor(cfpath) {
-		let buffer = fs.readFileSync(cfpath);
-		this.cfsrc = JSON.parse(buffer.toString());
-		this.options = {args: ['--enable-pubsub-experiment'], disposable: false, init: true, repoPath: this.cfsrc.repoPathGo};
+		try {
+			let buffer = fs.readFileSync(cfpath);
+			this.cfsrc = JSON.parse(buffer.toString());
+			this.options = {args: ['--enable-pubsub-experiment'], disposable: false, init: true, repoPath: this.cfsrc.repoPathGo};
+
+			if (typeof(this.cfsrc.ipfsBinary) === 'undefined') {
+				this.cfsrc.ipfsBinary = path.join(__dirname, 'node_modules', 'go-ipfs-dep', 'go-ipfs', 'ipfs');
+			}
+		} catch (err) {
+			this.cfsrc = {
+				repoPathGo: '/tmp/ipfs_tmp',
+				lockerpathgo: '/tmp/.locker_go',
+				ipfsBinary: path.join(__dirname, 'node_modules', 'go-ipfs-dep', 'go-ipfs', 'ipfs'),
+			};
+			this.options = {args: ['--enable-pubsub-experiment'], disposable: true, init: true, repoPath: this.cfsrc.repoPathGo};
+		}
 
 		if (fs.existsSync(this.cfsrc.lockerpathgo)) this.options.init = false;
 
