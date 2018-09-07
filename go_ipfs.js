@@ -12,13 +12,15 @@ class IPFS_GO {
 			this.options = {args: ['--enable-pubsub-experiment'], disposable: false, init: true, repoPath: this.cfsrc.repoPathGo};
 
 			if (typeof(this.cfsrc.ipfsBinary) === 'undefined') {
-				this.cfsrc.ipfsBinary = path.join(__dirname, 'node_modules', 'go-ipfs-dep', 'go-ipfs', 'ipfs');
+				let goipfspath = require.resolve('go-ipfs-dep');
+				this.cfsrc.ipfsBinary = path.join(goipfspath, 'go-ipfs', 'ipfs');
 			}
 		} catch (err) {
+			let goipfspath = require.resolve('go-ipfs-dep');
 			this.cfsrc = {
 				repoPathGo: '/tmp/ipfs_tmp',
 				lockerpathgo: '/tmp/.locker_go',
-				ipfsBinary: path.join(__dirname, 'node_modules', 'go-ipfs-dep', 'go-ipfs', 'ipfs'),
+				ipfsBinary: path.join(goipfspath, 'go-ipfs', 'ipfs')
 			};
 			this.options = {args: ['--enable-pubsub-experiment'], disposable: true, init: true, repoPath: this.cfsrc.repoPathGo};
 		}
