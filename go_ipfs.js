@@ -39,6 +39,7 @@ class IPFS_GO {
                                 	if (err) return reject(err);
 
 					process.on('SIGINT', () => {
+						if (this.options.disposable) fs.unlinkSync(this.cfsrc.lockerpathgo);
 						if (this.controller.started) {
 							console.log("\tCtrl+C or SIGINT detected ... stopping...");
 							this.stop().then(() => {
@@ -49,6 +50,7 @@ class IPFS_GO {
 					});
 
 					process.on('exit', () => {
+						if (this.options.disposable) fs.unlinkSync(this.cfsrc.lockerpathgo);
 						if (this.controller.started) {
 							this.stop().then(() => {
 								fs.unlinkSync(path.join(this.cfsrc.repoPathGo, 'api'));
@@ -74,6 +76,7 @@ class IPFS_GO {
 
         stop = (graceTime = 31500) => {
                 const __stop = (resolve, reject) => {
+			if (this.options.disposable) fs.unlinkSync(this.cfsrc.lockerpathgo);
                         this.controller.stop(graceTime, (err) => {
                                 if (err) return reject(false);
                                 resolve(true);
