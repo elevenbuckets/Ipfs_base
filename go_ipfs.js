@@ -6,6 +6,29 @@ const path = require('path');
 
 class IPFS_GO {
 	constructor(cfpath) {
+                const __watcher = (cfpath) => {
+                        console.log("No config found, watcher triggered ...");
+                        let cfgw = fs.watch(path.dirname(cfpath), (e, f) => {
+                                console.log(`CastIron::__watcher: got fsevent ${e} on ${f}`);
+                                if ((e === 'rename' || e === 'change') && f === path.basename(cfpath) && fs.existsSync(cfpath)) {
+                                        console.log("got config file, parsing ...");
+					this.stop().then(() => {
+                                        	let buffer = fs.readFileSync(cfpath);
+                                        	this.cfsrc = JSON.parse(buffer.toString());
+						this.options = {args: ['--enable-pubsub-experiment'], disposable: false, init: true, repoPath: this.cfsrc.repoPathGo};
+
+						if (typeof(this.cfsrc.ipfsBinary) === 'undefined') {
+							let goipfspath = path.dirname(path.dirname(require.resolve('go-ipfs-dep')));
+							this.cfsrc.ipfsBinary = path.join(goipfspath, 'go-ipfs', 'ipfs');
+						}
+					})
+					.then(() => {
+						return this.start();
+					})
+                                }
+                        })
+                }
+
 		try {
 			let buffer = fs.readFileSync(cfpath);
 			this.cfsrc = JSON.parse(buffer.toString());
