@@ -25,7 +25,7 @@ class IPFS_GO {
 			this.options = {args: ['--enable-pubsub-experiment'], disposable: true, init: true, repoPath: this.cfsrc.repoPathGo};
 		}
 
-		if (fs.existsSync(this.cfsrc.lockerpathgo)) this.options.init = false;
+		if (this.options.disposable === false && fs.existsSync(this.cfsrc.lockerpathgo)) this.options.init = false;
 
 		this.ipfsd = ipfsctl.create({type: 'go', exec: this.cfsrc.ipfsBinary});
 	}
@@ -35,13 +35,12 @@ class IPFS_GO {
                         this.ipfsd.spawn(this.options, (err, ipfsFactory) => {
                                 if (err) return reject(err);
 
-                                fs.writeFileSync(this.cfsrc.lockerpathgo, JSON.stringify(this.cfsrc,0,2));
+                                if (!this.options.disposable) fs.writeFileSync(this.cfsrc.lockerpathgo, JSON.stringify(this.cfsrc,0,2));
 
 				ipfsFactory.start(this.options.args, (err) => {
                                 	if (err) return reject(err);
 
 					process.on('SIGINT', () => {
-						if (this.options.disposable) fs.unlinkSync(this.cfsrc.lockerpathgo);
 						if (this.controller.started) {
 							console.log("\tCtrl+C or SIGINT detected ... stopping...");
 							this.stop().then(() => {
@@ -52,7 +51,6 @@ class IPFS_GO {
 					});
 
 					process.on('exit', () => {
-						if (this.options.disposable) fs.unlinkSync(this.cfsrc.lockerpathgo);
 						if (this.controller.started) {
 							this.stop().then(() => {
 								fs.unlinkSync(path.join(this.cfsrc.repoPathGo, 'api'));
@@ -78,7 +76,6 @@ class IPFS_GO {
 
         stop = (graceTime = 31500) => {
                 const __stop = (resolve, reject) => {
-			if (this.options.disposable) fs.unlinkSync(this.cfsrc.lockerpathgo);
                         this.controller.stop(graceTime, (err) => {
                                 if (err) return reject(false);
                                 resolve(true);
