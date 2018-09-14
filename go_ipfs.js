@@ -51,7 +51,7 @@ class IPFS_GO {
 		if (this.options.disposable === false && fs.existsSync(this.cfsrc.lockerpathgo)) this.options.init = false;
 		if (this.options.disposable === false && this.options.init) {
 			console.log(`Initializing IPFS repo at ${this.cfsrc.repoPathGo} ...`);
-			execFile(`${this.cfsrc.ipfsBinary} init`, {env: {IPFS_PATH: this.cfsrc.repoPathGo}}, (err, stdout, stderr) => {
+			execFile(${this.cfsrc.ipfsBinary}, ['init'], {env: {IPFS_PATH: this.cfsrc.repoPathGo}}, (err, stdout, stderr) => {
 				if (err) console.log(stdout); console.log(stderr); throw(err);
 				this.ipfsd = ipfsctl.create({type: 'go', exec: this.cfsrc.ipfsBinary});
 			})
