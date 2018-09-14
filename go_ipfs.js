@@ -3,7 +3,7 @@ const ipfsctl = require('ipfsd-ctl');
 const ipfsAPI = require('ipfs-api');
 const fs = require('fs');
 const path = require('path');
-const { execFile } = require('child_process');
+const { execFileSync } = require('child_process');
 
 class IPFS_GO {
 	constructor(cfpath) {
@@ -51,16 +51,13 @@ class IPFS_GO {
 		if (this.options.disposable === false && fs.existsSync(this.cfsrc.lockerpathgo)) this.options.init = false;
 		if (this.options.disposable === false && this.options.init) {
 			console.log(`Initializing IPFS repo at ${this.cfsrc.repoPathGo} ...`);
-			execFile(this.cfsrc.ipfsBinary, ['init'], {env: {IPFS_PATH: this.cfsrc.repoPathGo}}, (err, stdout, stderr) => {
-				if (err) throw(err);
-				this.ipfsd = ipfsctl.create({type: 'go', exec: this.cfsrc.ipfsBinary});
-			})
-		} else {
-			this.ipfsd = ipfsctl.create({type: 'go', exec: this.cfsrc.ipfsBinary});
+			execFileSync(this.cfsrc.ipfsBinary, ['init'], {env: {IPFS_PATH: this.cfsrc.repoPathGo}}); 
 		}
 	}
 	
 	start = () => {
+		this.ipfsd = ipfsctl.create({type: 'go', exec: this.cfsrc.ipfsBinary});
+
                 const __spawn = (resolve, reject) => {
                         this.ipfsd.spawn(this.options, (err, ipfsFactory) => {
                                 if (err) return reject(err);
