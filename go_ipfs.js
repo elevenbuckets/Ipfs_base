@@ -10,7 +10,7 @@ const __asar_unpacked = (inPath) => {
 		? require('original-fs')
 		: fs
 	
-	outPath = inPath.replace(/app.asar/, 'app.asar.unpacked');
+	let outPath = inPath.replace(/app.asar/, 'app.asar.unpacked');
 	return _fs.existsSync(outPath) ? outPath : inPath;
 }
 
