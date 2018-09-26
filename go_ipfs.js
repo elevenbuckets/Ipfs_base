@@ -5,6 +5,15 @@ const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
 
+const __asar_unpacked = (inPath) => {
+	const _fs = process.versions.electron
+		? require('original-fs')
+		: fs
+	
+	outPath = inPath.replace(/app.asar/, 'app.asar.unpacked');
+	return _fs.existsSync(outPath) ? outPath : inPath;
+}
+
 class IPFS_GO {
 	constructor(cfpath) {
                 const __watcher = (cfpath) => {
@@ -21,7 +30,7 @@ class IPFS_GO {
 
 						if (typeof(this.cfsrc.ipfsBinary) === 'undefined') {
 							let goipfspath = path.dirname(path.dirname(require.resolve('go-ipfs-dep')));
-							this.cfsrc.ipfsBinary = path.join(goipfspath, 'go-ipfs', 'ipfs');
+							this.cfsrc.ipfsBinary = __asar_unpacked(path.join(goipfspath, 'go-ipfs', 'ipfs'));
 						}
 					})
 					.then(() => { console.log("IPFS restarting ..."); return this.start(); })
@@ -36,14 +45,14 @@ class IPFS_GO {
 
 			if (typeof(this.cfsrc.ipfsBinary) === 'undefined') {
 				let goipfspath = path.dirname(path.dirname(require.resolve('go-ipfs-dep')));
-				this.cfsrc.ipfsBinary = path.join(goipfspath, 'go-ipfs', 'ipfs');
+				this.cfsrc.ipfsBinary = __asar_unpacked(path.join(goipfspath, 'go-ipfs', 'ipfs'));
 			}
 		} catch (err) {
 			let goipfspath = path.dirname(path.dirname(require.resolve('go-ipfs-dep')));
 			this.cfsrc = {
 				repoPathGo: '/tmp/ipfs_tmp',
 				lockerpathgo: '/tmp/.locker_go',
-				ipfsBinary: path.join(goipfspath, 'go-ipfs', 'ipfs')
+				ipfsBinary: __asar_unpacked(path.join(goipfspath, 'go-ipfs', 'ipfs'))
 			};
 			this.options = {args: ['--enable-pubsub-experiment'], disposable: true, init: true, repoPath: this.cfsrc.repoPathGo};
 		}
