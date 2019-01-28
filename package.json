@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "babel": {
+    "plugins": [
+      "transform-class-properties",
+      "transform-object-rest-spread"
+    ]
+  },
   "scripts": {
     "build_go": "./node_modules/.bin/babel --presets env --plugins transform-class-properties,transform-object-rest-spread ./go_ipfs.js -o ./IPFS_GO.js",
     "build_js": "./node_modules/.bin/babel --presets env --plugins transform-class-properties,transform-object-rest-spread ./js_ipfs.js -o ./IPFS_JS.js",
