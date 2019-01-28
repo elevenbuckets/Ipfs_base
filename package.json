@@ -10,8 +10,8 @@
     ]
   },
   "scripts": {
-    "build_go": "./node_modules/.bin/babel --presets env --plugins transform-class-properties,transform-object-rest-spread ./go_ipfs.js -o ./IPFS_GO.js",
-    "build_js": "./node_modules/.bin/babel --presets env --plugins transform-class-properties,transform-object-rest-spread ./js_ipfs.js -o ./IPFS_JS.js",
+    "build_go": "babel --presets env --plugins transform-class-properties,transform-object-rest-spread ./go_ipfs.js -o ./IPFS_GO.js",
+    "build_js": "babel --presets env --plugins transform-class-properties,transform-object-rest-spread ./js_ipfs.js -o ./IPFS_JS.js",
     "build": "npm run build_go && npm run build_js",
     "clean": "rm -vf ./IPFS_GO.js ./IPFS_JS.js",
     "postinstall": "npm run build"
