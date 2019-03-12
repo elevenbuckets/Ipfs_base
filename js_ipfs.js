@@ -53,7 +53,6 @@ class IPFS_GO {
 
 	readPath = (ipfsPath) => { return this.ipfs.files.cat(ipfsPath); }
 
-	/*
 	publish = (contentHash, key=null) => {
 		let options = {};
 
@@ -64,7 +63,6 @@ class IPFS_GO {
 	resolve = (ipnsHash) => {
 		return this.ipfs.name.resolve(ipnsHash);
 	}
-	*/
 }
 
 module.exports = IPFS_GO;
