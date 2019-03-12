@@ -1,6 +1,6 @@
 'use strict';
 const ipfsctl = require('ipfsd-ctl');
-const ipfsAPI = require('ipfs-api');
+const ipfsAPI = require('ipfs-http-client');
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
@@ -123,14 +123,14 @@ class IPFS_GO {
 
 	put = (fpath) => {
 		let buff = fs.readFileSync(fpath);
-		return this.ipfsAPI.files.add(buff); // return a promise
+		return this.ipfsAPI.add(buff); // return a promise
 	}
 
 	lspin = () => { return this.ipfsAPI.pin.ls(); }
 
-	read = (hash) => { return this.ipfsAPI.files.cat('/ipfs/' + hash); }
+	read = (hash) => { return this.ipfsAPI.cat('/ipfs/' + hash); }
 
-	readPath = (ipfsPath) => { return this.ipfsAPI.files.cat(ipfsPath); }
+	readPath = (ipfsPath) => { return this.ipfsAPI.cat(ipfsPath); }
 
 	publish = (contentHash, key=null) => {
 		let options = {};
