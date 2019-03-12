@@ -24,8 +24,8 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "go-ipfs-dep": "^0.4.16",
-    "ipfs": "^0.30.0",
-    "ipfsd-ctl": "^0.38.0"
+    "go-ipfs-dep": "^0.4.18",
+    "ipfs": "^0.34.4",
+    "ipfsd-ctl": "^0.42.0"
   }
 }
